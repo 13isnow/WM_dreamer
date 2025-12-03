@@ -17,10 +17,9 @@ class Trainer:
 
         total_loss = 0.0
         for _ in tqdm(range(self.train_tokenizer_epochs), desc="Tokenizer Training Epochs"):
-            for image_data in dataloader:
+            for image_data, in dataloader:
                 # 标准化
-                print(image_data)
-                B, T, C, H, W = image_data.shape
+                B, T, H, W, C = image_data.shape
                 image_data = image_data.reshape(B*T, C, H, W)
                 image_data = tokenizer.preprocess(image_data)
                 # 生成latent

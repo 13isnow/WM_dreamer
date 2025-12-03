@@ -145,7 +145,9 @@
 
 ## Usage
 创建环境：`docker build -t embody:latest .`
+
 运行环境：`docker run -it -v (PWD):/app embody:v2`
+
 环境信息：详见 [Minerl](https://minerl.readthedocs.io/en/v0.4.4/index.html)
 
 使用示例
@@ -177,12 +179,13 @@ dreamer4/
 /data
 ├── /TASK          # 储存Minecraft VPT 数据集，数据来源[https://zenodo.org/records/12659939](https://zenodo.org/records/12659939)
 /code
-├── config.py          # 训练参数配置（学习率、网络维度、训练轮数等）
-├── main.py            # 训练入口（调度分阶段训练）
-├── model.py           # 核心模型定义（Tokenizer、Dynamics、Agent）
-├── trainer.py         # 训练逻辑实现（分阶段训练、损失计算、轨迹生成）
-├── logger_manager.py  # 日志管理（控制台+文件双输出）
-└── logs/              # 训练日志目录
+├── config.py           # 训练参数配置（学习率、网络维度、训练轮数等）
+├── main.py             # 训练入口（调度分阶段训练）
+├── model.py            # 核心模型定义（Tokenizer、Dynamics、Agent）
+├── trainer.py          # 训练逻辑实现（分阶段训练、损失计算、轨迹生成）
+├── env.py              # 从环境信息中提取必要元素
+├── logger_manager.py   # 日志管理（控制台+文件双输出）
+└── logs/               # 训练日志目录
 
 ## TODO
 - Tokenizer

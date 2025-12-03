@@ -7,13 +7,16 @@ from config import GameConfig, DataConfig, TrainConfig
 from model import Tokenizer, Dynamics
 from trainer import Trainer
 from logger_manager import logger
+from env import Tasks_ENV_MAP
 
 Tasks = GameConfig.TASKS
 
-class DataBuffer(IterableDataset):
-    def __init__(self, data, attrs):
+class DataBuffer:
+    def __init__(self, data, attrs, task):
+        # 0 - image, 1 - action, 2 - reward, 3 - next image, 4 - done
         self.data = data
         self.attrs = attrs
+        self.task = task
 
     def __iter__(self):
         for batch in self.data.batch_iter(
@@ -21,10 +24,10 @@ class DataBuffer(IterableDataset):
             seq_len=DataConfig.SEQ_LEN,
             num_epochs=DataConfig.BATCHES
         ):
-            yield [batch[attr] for attr in self.attrs]
+            yield tuple(Tasks_ENV_MAP[self.task][attr](batch[attr]) for attr in self.attrs)
 
 
-def train_tokenizer(trainer, data):
+def train_tokenizer(trainer, data, task):
     tokenizer = Tokenizer(
         image_dim=TrainConfig.image_dim,
         stride=TrainConfig.stride,
@@ -39,7 +42,7 @@ def train_tokenizer(trainer, data):
     optimizer = torch.optim.AdamW(tokenizer.parameters(), lr=TrainConfig.tokenizer_lr, weight_decay=TrainConfig.weight_decay)
     scheduler = torch.optim.lr_scheduler.CosineAnnealingLR(optimizer, T_max=TrainConfig.T_max)
     logger.info("tokenizer train start")
-    dataloader = DataBuffer(data, attrs=[0])
+    dataloader = DataBuffer(data, attrs=[0], task=task)
     loss = trainer.train_tokenizer(tokenizer, dataloader, optimizer, scheduler)
     tokenizer.save(os.path.join(GameConfig.MODEL_DIR, "tokenizer.pth"))
     logger.info(f"Tokenizer training completed")
@@ -58,7 +61,7 @@ def main():
         data_dir=GameConfig.DATA_DIR,
         num_workers=4
     )
-    train_tokenizer(trainer, data)
+    train_tokenizer(trainer, data, Tasks[0])
     
 
 if __name__ == "__main__":
