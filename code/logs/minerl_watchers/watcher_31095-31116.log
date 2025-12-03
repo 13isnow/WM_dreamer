@@ -1,0 +1,2 @@
+2025-12-02 10:47:06 4159fdc5e7dc process_watcher[31176] INFO Process watcher started between parent 31095 and child 31116 
+2025-12-02 10:47:46 4159fdc5e7dc process_watcher[31176] INFO Child is not running anymore, launcher can terminate.
