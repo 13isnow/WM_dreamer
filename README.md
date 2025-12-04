@@ -10,6 +10,9 @@
     - 作用：学习“动作如何改变环境状态”的规律，提供“状态转换预测”能力，是 WM 作为“内部模拟器”的核心。
 
 **与环境的关系**：WM 直接处理环境的原始输出（视觉数据），并通过 latent 状态间接向 Agent 传递环境信息，是 Agent 感知环境的“中介”。
+> Flow-based Model是一种基于Normalizing Flows(NFs)的生成模型，它通过一系列概率密度函数的变量变换，将复杂的概率分布转换为简单的概率分布，并通过逆变换生成新的数据样本。而Continuous Normalizing Flows(CNFs)是Normalizing Flows的扩展，它使用常微分方程(ODE)来表示连续的变换过程，用于建模概率分布。
+
+Flow Matching(FM)是一种训练Continuous Normalizing Flows的方法，它通过学习与概率路径相关的向量场(Vector Field)来训练模型，并使用ODE求解器来生成新样本。
 
 ## Agent
 + **Policy Head**：  
@@ -173,19 +176,19 @@ def workflow():
 
 ## 项目结构
 dreamer4/
-├── requirements.txt    # 依赖清单
-├── README.md
+- requirements.txt    # 依赖清单
+- README.md
 /models
 /data
-├── /TASK          # 储存Minecraft VPT 数据集，数据来源[https://zenodo.org/records/12659939](https://zenodo.org/records/12659939)
+- /TASK          # 储存Minecraft VPT 数据集，数据来源[https://zenodo.org/records/12659939](https://zenodo.org/records/12659939)
 /code
-├── config.py           # 训练参数配置（学习率、网络维度、训练轮数等）
-├── main.py             # 训练入口（调度分阶段训练）
-├── model.py            # 核心模型定义（Tokenizer、Dynamics、Agent）
-├── trainer.py          # 训练逻辑实现（分阶段训练、损失计算、轨迹生成）
-├── env.py              # 从环境信息中提取必要元素
-├── logger_manager.py   # 日志管理（控制台+文件双输出）
-└── logs/               # 训练日志目录
+-config.py           # 训练参数配置（学习率、网络维度、训练轮数等）
+- main.py             # 训练入口（调度分阶段训练）
+- model.py            # 核心模型定义（Tokenizer、Dynamics、Agent）
+- trainer.py          # 训练逻辑实现（分阶段训练、损失计算、轨迹生成）
+- env.py              # 从环境信息中提取必要元素
+- logger_manager.py   # 日志管理（控制台+文件双输出）
+- logs/               # 训练日志目录
 
 ## TODO
 - Tokenizer
