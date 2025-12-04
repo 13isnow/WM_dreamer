@@ -115,9 +115,9 @@ Flow Matching(FM)是一种训练Continuous Normalizing Flows的方法，它通�
 
 损失：
 
-+ 行为克隆损失：$ CE(logits, actions) $
-+ 奖励预测损失：$ MSE(pred\_reward, reward) $
-+ Dynamics 微调损失：$ w(\tau) MSE(pred\_z, z) $
++ 行为克隆损失：$CE(logits, actions)$
++ 奖励预测损失：$MSE(pred\_reward, reward)$
++ Dynamics 微调损失：$w(\tau) MSE(pred\_z, z)$
 
 ---
 
@@ -178,11 +178,14 @@ def workflow():
 dreamer4/
 - requirements.txt    # 依赖清单
 - README.md
+
 /models
+
 /data
 - /TASK          # 储存Minecraft VPT 数据集，数据来源[https://zenodo.org/records/12659939](https://zenodo.org/records/12659939)
+
 /code
--config.py           # 训练参数配置（学习率、网络维度、训练轮数等）
+- config.py           # 训练参数配置（学习率、网络维度、训练轮数等）
 - main.py             # 训练入口（调度分阶段训练）
 - model.py            # 核心模型定义（Tokenizer、Dynamics、Agent）
 - trainer.py          # 训练逻辑实现（分阶段训练、损失计算、轨迹生成）
